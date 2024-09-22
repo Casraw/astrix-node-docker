@@ -7,6 +7,8 @@ on:
   pull_request:
     branches:
       - "main"
+    tags:
+      - "v*.*.*"
   schedule:
     - cron: '0 */6 * * *'
   workflow_dispatch:
@@ -86,9 +88,13 @@ jobs:
           labels: |
             org.opencontainers.image.revision=${{ env.SHA }}
           tags: |
-            type=edge,branch=$repo.default_branch
-            type=semver,pattern=v{{version}}
-            type=sha,prefix=,suffix=,format=short
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@v6
@@ -97,7 +103,7 @@ jobs:
           context: .
           sbom: true
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }} latest
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=casraw/astrix-node-docker:buildcache
           cache-to: type=registry,ref=casraw/astrix-node-docker:buildcache,mode=max
