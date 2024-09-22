@@ -1,7 +1,6 @@
-Here's the updated README with the requested changes:
 # Astrix Node Docker
 
-This repository contains the necessary steps to run an Astrix Node using Docker. The node is currently in a static state, but more configuration options will be added over time as the development progresses.
+This repository contains the necessary steps to run an Astrix Node using Docker. The node is currently in a static state, but more configuration options will be added over time as the development progresses. It has also the web wallet in it.
 
 ## Requirements
 
