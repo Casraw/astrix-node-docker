@@ -62,4 +62,3 @@ Stay tuned for further improvements!
 ## Contributing
 
 Contributions, bug reports, and suggestions are welcome! Feel free to open an issue or submit a pull request.
-
