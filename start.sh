@@ -28,4 +28,3 @@ echo "astrixd is running, starting basic-http-server..."
 # Start the second command
 cd /git/astrix-node/wallet/wasm/web
 basic-http-server /git/astrix-node/wallet/wasm/web -a 0.0.0.0:4000
-
