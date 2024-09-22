@@ -26,5 +26,6 @@ done
 echo "astrixd is running, starting basic-http-server..."
 
 # Start the second command
-cd wallet && cd wasm  && cd web
-basic-http-server
+cd /git/astrix-node/wallet/wasm/web
+basic-http-server /git/astrix-node/wallet/wasm/web -a 127.0.0.1:4000
+
