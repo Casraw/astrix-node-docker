@@ -6,7 +6,7 @@ This repository contains the necessary steps to run an Astrix Node using Docker.
 ## Requirements
 
 - [Docker](https://www.docker.com/)
-- At least 1 GB of disk space
+- At least 5 GB of disk space
 
 ## Quickstart
 

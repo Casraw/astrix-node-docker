@@ -18,7 +18,11 @@ env:
   REGISTRY: docker.io  
   IMAGE_NAME: casraw/astrix-node-docker
   SHA: ${{ github.sha }}
-  COMPARE_TAG: latest 
+  COMPARE_TAG: latest
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   docker:
