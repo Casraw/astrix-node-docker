@@ -104,7 +104,7 @@ jobs:
           outputs: ${{ github.event_name == 'pull_request' && 'type=cacheonly' || 'type=registry,push=true' }}
           provenance: mode=max
       - name: Update Docker Hub description
-        uses: peter-evans/dockerhub-description@v2
+        uses: peter-evans/dockerhub-description@vv
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PAT }}
