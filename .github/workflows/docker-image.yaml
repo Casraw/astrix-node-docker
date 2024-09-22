@@ -28,15 +28,13 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  docker:
+  build:
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout your repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Check for upstream changes
         run: |
           git remote add upstream https://github.com/astrix-network/astrix-node.git
@@ -60,7 +58,6 @@ jobs:
           fi
 
           echo $UPSTREAM_LATEST_COMMIT > upstream-latest.txt
-
       - name: Commit and push upstream-latest.txt
         run: |
           git config --global user.name "GitHub Actions"
@@ -74,13 +71,11 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PAT }}
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
@@ -88,7 +83,6 @@ jobs:
           driver: cloud
           endpoint: "casraw/allgemein"
           install: true
-
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v4.4.0
@@ -100,54 +94,54 @@ jobs:
             type=edge,branch=$repo.default_branch
             type=semver,pattern=v{{version}}
             type=sha,prefix=,suffix=,format=short
-
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@v6
         with:
+          platforms: linux/amd64,linux/arm64,linux/arm/v6,linux/arm/v7
           context: .
+          sbom: true
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=registry,ref=casraw/astrix-node-docker:buildcache
+          cache-to: type=registry,ref=casraw/astrix-node-docker:buildcache,mode=max
           outputs: ${{ github.event_name == 'pull_request' && 'type=cacheonly' || 'type=registry,push=true' }}
-
-
+          provenance: mode=max
       - name: Build and push commit-specific image
         uses: docker/build-push-action@v6
         with:
+          platforms: linux/amd64,linux/arm64,linux/arm/v6,linux/arm/v7
           context: .
+          sbom: true
           push: true
           tags: "casraw/astrix-node-docker:${{ github.sha }}"
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=registry,ref=casraw/astrix-node-docker:buildcache
+          cache-to: type=registry,ref=casraw/astrix-node-docker:buildcache,mode=max
           outputs: ${{ github.event_name == 'pull_request' && 'type=cacheonly' || 'type=registry,push=true' }}
+          provenance: mode=max
 
 #      - name: Enable Docker Content Trust (DCT)
 #        run: |
 #          export DOCKER_CONTENT_TRUST=1
 #          docker pull casraw/astrix-node-docker:latest
 
-      - name: Install Syft for SBoM generation
-        run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
-
-      - name: Generate SBoM for the Docker image
-        run: syft casraw/astrix-node-docker:latest -o json > sbom.json
-
-      - name: Upload SBoM artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: sbom
-          path: sbom.json
-
+#      - name: Install Syft for SBoM generation
+#        run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+#      - name: Generate SBoM for the Docker image
+#        run: syft casraw/astrix-node-docker:latest -o json > sbom.json
+#      - name: Upload SBoM artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: sbom
+#          path: sbom.json
       - name: Update Docker Hub description
         uses: peter-evans/dockerhub-description@v2
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PAT }}
           repository: casraw/astrix-node-docker
-          readme-filepath: ./README.md
+#          readme-filepath: ./README.md
 
 #      - name: Docker Scout
 #        id: docker-scout
