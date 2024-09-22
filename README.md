@@ -55,9 +55,11 @@ If you would like to support the **main Astrix network development**, you can do
 ### Development Status
 
 This project is under active development. While the current configuration is static, more customizable options will be added in future updates.
+Also maybe build a Kubernetes Deployment lets see.
 
 Stay tuned for further improvements!
 
 ## Contributing
 
 Contributions, bug reports, and suggestions are welcome! Feel free to open an issue or submit a pull request.
+
