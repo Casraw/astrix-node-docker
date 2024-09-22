@@ -6,7 +6,7 @@ This repository contains the necessary steps to run an Astrix Node using Docker.
 ## Requirements
 
 - [Docker](https://www.docker.com/)
-- At least 5 GB of disk space
+- At least 5 GB of disk space (And growing)
 
 ## Quickstart
 
@@ -18,8 +18,8 @@ docker run -p 4000:4000 \
            -p 17110:17110 \
            -p 36150:36150 \
            -p 34551:34551 \
-           -v astrix:/root/.astrix-node \
-           casraw/astrix-node-docker
+           -v astrix:/home/astrix/.astrix-node \
+           casraw/astrix-node-docker:main
 ```
 
 ### Ports Explanation
@@ -32,7 +32,7 @@ docker run -p 4000:4000 \
 
 ### Persistent Data
 
-To keep your node's data persistent across container restarts, a Docker volume is used: `astrix:/root/.astrix-node`.
+To keep your node's data persistent across container restarts, a Docker volume is used: `astrix:/home/astrix/.astrix-node`.
 
 ## Donations
 

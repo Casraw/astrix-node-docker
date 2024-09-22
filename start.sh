@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 . "$HOME/.cargo/env"
 source ~/.bashrc
 
