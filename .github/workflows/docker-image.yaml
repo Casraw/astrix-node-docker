@@ -15,7 +15,6 @@ permissions:
   contents: write
 
 env:
-  REGISTRY: docker.io  
   IMAGE_NAME: casraw/astrix-node-docker
   SHA: ${{ github.sha }}
 
@@ -83,7 +82,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.IMAGE_NAME }}
           labels: |
             org.opencontainers.image.revision=${{ env.SHA }}
           tags: |
@@ -110,4 +109,4 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PAT }}
           repository: casraw/astrix-node-docker
-#          readme-filepath: ./README.md
+          readme-filepath: ./README.md
