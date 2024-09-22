@@ -14,6 +14,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PAT }}
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
@@ -21,41 +22,54 @@ jobs:
           driver: cloud
           endpoint: "casraw/allgemein"
           install: true
-      - name: Build and push
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Build and push latest image
         uses: docker/build-push-action@v6
         with:
           tags: "casraw/astrix-node-docker:latest"
-          # For pull requests, export results to the build cache.
-          # Otherwise, push to a registry.
-          outputs: ${{ github.event_name == 'pull_request' && 'type=cacheonly' || 'type=registry' }}
-      - name: Build and push
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
+
+      - name: Build and push commit-specific image
         uses: docker/build-push-action@v6
         with:
           tags: "casraw/astrix-node-docker:${{ github.sha }}"
-          # For pull requests, export results to the build cache.
-          # Otherwise, push to a registry.
-          outputs: ${{ github.event_name == 'pull_request' && 'type=cacheonly' || 'type=registry' }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
+
       - name: Enable Docker Content Trust (DCT)
         run: |
           export DOCKER_CONTENT_TRUST=1
           docker pull casraw/astrix-node-docker:latest
+
       - name: Install Syft for SBoM generation
         run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+
       - name: Generate SBoM for the Docker image
         run: syft casraw/astrix-node-docker:latest -o json > sbom.json
+
       - name: Upload SBoM artifact
         uses: actions/upload-artifact@v2
         with:
           name: sbom
           path: sbom.json
+
       - name: Update Docker Hub description
-      - name: Docker Scout Analysis
-        uses: docker/scout-action@v1
-        with:
-          image: casraw/astrix-node-docker:latest
         uses: peter-evans/dockerhub-description@v2
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PAT }}
           repository: casraw/astrix-node-docker
           readme-filepath: ./README.md
+
+      - name: Docker Scout Analysis
+        uses: docker/scout-action@v1
+        with:
+          image: casraw/astrix-node-docker:latest
