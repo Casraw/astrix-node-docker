@@ -49,7 +49,7 @@ jobs:
             echo "Workflow was triggered from this repository (push, PR, or manual). Proceeding with build."
           elif [ "$UPSTREAM_LATEST_COMMIT" = "$LAST_SAVED_COMMIT" ]; then
             echo "No changes in upstream and triggered by schedule. Skipping build."
-            exit 0
+            exit 1
           else
             echo "Changes detected in upstream. Proceeding with build."
           fi
