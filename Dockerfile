@@ -1,4 +1,4 @@
-FROM ubuntu:rolling
+FROM ubuntu:24.04
 
 RUN apt update && apt upgrade -y
 RUN apt install -y curl git build-essential libssl-dev pkg-config
