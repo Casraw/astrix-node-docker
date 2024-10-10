@@ -24,10 +24,10 @@ docker run -p 4000:4000 \
 ### Ports Explanation
 
 - **4000**: Main API port
-- **34150**: Peer-to-peer communication port
-- **17110**: Optional RPC port
-- **36150**: Another peer-to-peer port
-- **34551**: Additional service port
+- **34150**: gRPC connections
+- **17110**: wRPC Borsh connections
+- **36150**: wRPC JSON connections
+- **34551**: listen for connections
 
 ### Persistent Data
 
