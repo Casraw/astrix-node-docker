@@ -23,7 +23,7 @@ docker run -p 4000:4000 \
 
 ### Ports Explanation
 
-- **4000**: Main API port
+- **4000**: http connections
 - **34150**: gRPC connections
 - **17110**: wRPC Borsh connections
 - **36150**: wRPC JSON connections
