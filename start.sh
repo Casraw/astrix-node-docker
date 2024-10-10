@@ -3,7 +3,7 @@
 . "$HOME/.cargo/env"
 source ~/.bashrc
 
-cargo run --release --bin astrixd -- --utxoindex --rpclisten-json=default --rpclisten-borsh=default --perf-metrics --rpclisten=0.0.0.0:34150 --rpclisten-borsh=0.0.0.0:17110 --rpclisten-json=0.0.0.0:36150 --listen=0.0.0.0:34551  &
+cargo run --release --bin astrixd -- --utxoindex --perf-metrics --rpclisten=0.0.0.0:34150 --rpclisten-borsh=0.0.0.0:17110 --rpclisten-json=0.0.0.0:36150 --listen=0.0.0.0:34551  &
 
 # Capture the PID of the cargo process
 ASTRIX_PID=$!
