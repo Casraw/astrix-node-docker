@@ -15,7 +15,8 @@ htop btop iotop iftop net-tools
 RUN useradd -ms /bin/bash astrix
 
 WORKDIR /git
-COPY rustup-init.sh ./rustup-init.sh
+RUN wget https://sh.rustup.rs -O rustup-init.sh
+#COPY rustup-init.sh ./rustup-init.sh
 RUN chown -R astrix:astrix /git && chmod +x ./rustup-init.sh
 USER astrix
 RUN  ./rustup-init.sh -y
