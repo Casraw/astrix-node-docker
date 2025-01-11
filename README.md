@@ -38,7 +38,7 @@ To keep your node's data persistent across container restarts, a Docker volume i
 If you'd like to support the development of **this Docker project**, donations are welcome! Note that these donations go towards **supporting the Docker setup** and **not the main Astrix network development**.
 
 **Docker Project Donation Address**:  
-`astrix:qpu0jzy4njzu7ym6h8hhwakjwnrjx5wjnwqu25qgm7u0zhtvf4epk6h8mjfq5`
+`astrix:qzplc2xjrw4ep382df68m4guyurvdazyratd7p6wxs9vln7r4nnuqgc674kgc`
 
 If you would like to support the **main Astrix network development**, you can donate to:  
 **Main Astrix Network Donation Address**:  
