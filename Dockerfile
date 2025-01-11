@@ -23,7 +23,8 @@ RUN echo 'source "$HOME/.cargo/env"' >> ~/.bashrc && echo 'export PATH="$HOME/.c
 echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.profile
 RUN . "$HOME/.cargo/env" && cargo install wasm-pack && . "$HOME/.cargo/env" rustup target add wasm32-unknown-unknown
 
-RUN git clone https://github.com/astrix-network/astrix-node
+#RUN git clone https://github.com/astrix-network/astrix-node
+RUN wget https://github.com/astrix-network/astrix-node/archive/refs/tags/v0.14.1.tar.gz -O astrix-node.tar.gz && tar -xvf astrix-node.tar.gz && mv astrix-node-0.14.1 astrix-node && rm astrix-node.tar.gz
 
 WORKDIR /git/astrix-node
 RUN cd wallet/wasm/web && . "$HOME/.cargo/env" && cargo install basic-http-server && . "$HOME/.cargo/env" && cd wallet && cd wasm && ./build-web
