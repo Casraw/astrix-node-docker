@@ -10,7 +10,7 @@ libclang-dev libclang1 liblldb-dev \
 libllvm-ocaml-dev libomp-dev libomp5 \
 lld lldb llvm-dev llvm-runtime \
 llvm python3-clang \
-htop btop iotop iftop net-tools
+htop btop iotop iftop net-tools wget
 
 RUN useradd -ms /bin/bash astrix
 
