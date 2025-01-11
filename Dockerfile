@@ -1,7 +1,7 @@
 FROM ubuntu:24.04
 
-RUN apt update && apt upgrade -y
-RUN apt install -y clang-format clang-tidy \
+RUN apt update && apt upgrade -y &&apt install -y \
+clang-format clang-tidy \
 clang-tools clang clangd libc++-dev \
 libc++1 libc++abi-dev libc++abi1 \
 libclang-dev libclang1 liblldb-dev \
